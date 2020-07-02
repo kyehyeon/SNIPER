@@ -1,2 +1,2 @@
-import resnet_mx_101_e2e_3k
-import resnet_mx_101_e2e_3k_demo
+from . import resnet_mx_101_e2e_3k
+from . import resnet_mx_101_e2e_3k_demo

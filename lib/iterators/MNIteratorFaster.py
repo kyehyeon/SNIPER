@@ -138,7 +138,7 @@ class MNIteratorFaster(MNIteratorBase):
 
         im_tensor = mx.ndarray.zeros((n_batch,
             3,max_height,max_width))
-        #print im_tensor.shape
+        #print(im_tensor.shape)
         for i in range(len(processed_list)):
             im = processed_list[i]['im']
             for j in range(3):

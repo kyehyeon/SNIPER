@@ -102,10 +102,10 @@ def main():
     # symbol preparation
     data_names = ['data', 'im_info'] #, 'im_ids']
     label_names = []
-    data = [[mx.nd.array(data[i][name]) for name in data_names] for i in xrange(len(data))]
+    data = [[mx.nd.array(data[i][name]) for name in data_names] for i in range(len(data))]
     max_data_shape = [[('data', (1, 3, max([v[0] for v in config.TEST.SCALES]), max([v[1] for v in config.TEST.SCALES])))]]
-    provide_data = [[(k, v.shape) for k, v in zip(data_names, data[i])] for i in xrange(len(data))]
-    provide_label = [None for i in xrange(len(data))]
+    provide_data = [[(k, v.shape) for k, v in zip(data_names, data[i])] for i in range(len(data))]
+    provide_label = [None for i in range(len(data))]
     output_path = './output/chips_resnet101_3k/res101_mx_3k/fall11_whole/'
     model_prefix = os.path.join(output_path, 'CRCNN')
     arg_params, aux_params = load_param(model_prefix, config.TEST.TEST_EPOCH,
@@ -234,7 +234,7 @@ def main():
             cls_dets = cls_dets[cls_dets[:, -1] > float(args.thresh), :]
             dets_nms.append(cls_dets)
 
-        print 'testing {}'.format(im_name)
+        print('testing {}'.format(im_name))
         # visualize
         im = cv2.cvtColor(eval_im_list[idx].astype(np.uint8), cv2.COLOR_BGR2RGB)
         vis_boxes(im_name, im, dets_nms, im_info_list_eval[idx][0][2], config, args.thresh, dir_names)

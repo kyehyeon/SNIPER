@@ -6,7 +6,7 @@
 # ---------------------------------------------------------------
 import numpy as np
 import os
-import cPickle
+import pickle
 import gc
 from dataset import *
 
@@ -52,7 +52,7 @@ def add_chip_data(roidb,chip_meta_data_path=''):
     print('Loading chip meta data from : {}'.format(chip_meta_data_path))
     file = open(chip_meta_data_path,'rb')
     gc.disable()
-    chip_meta_data = cPickle.load(file)
+    chip_meta_data = pickle.load(file)
     gc.enable()
     file.close()
     gc.collect()
@@ -100,7 +100,7 @@ def filter_roidb(roidb, config):
     num = len(roidb)
     filtered_roidb = [entry for entry in roidb if is_valid(entry)]
     num_after = len(filtered_roidb)
-    print 'filtered %d roidb entries: %d -> %d' % (num - num_after, num, num_after)
+    print('filtered %d roidb entries: %d -> %d' % (num - num_after, num, num_after))
 
     return filtered_roidb
 

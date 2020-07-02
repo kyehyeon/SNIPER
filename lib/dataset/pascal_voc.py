@@ -13,7 +13,7 @@ function. Results are written as the Pascal VOC format. Evaluation is based on m
 criterion.
 """
 
-import cPickle
+import pickle
 import cv2
 import os
 import numpy as np
@@ -50,7 +50,7 @@ class PascalVOC(IMDB):
         self.num_classes = len(self.classes)
         self.image_set_index = self.load_image_set_index()
         self.num_images = len(self.image_set_index)
-        print 'num_images', self.num_images
+        print('num_images', self.num_images)
         self.mask_size = mask_size
         self.binary_thresh = binary_thresh
 
@@ -97,14 +97,14 @@ class PascalVOC(IMDB):
         cache_file = os.path.join(self.cache_path, self.name + '_gt_roidb.pkl')
         if os.path.exists(cache_file):
             with open(cache_file, 'rb') as fid:
-                roidb = cPickle.load(fid)
-            print '{} gt roidb loaded from {}'.format(self.name, cache_file)
+                roidb = pickle.load(fid)
+            print('{} gt roidb loaded from {}'.format(self.name, cache_file))
             return roidb
 
         gt_roidb = [self.load_pascal_annotation(index) for index in self.image_set_index]
         with open(cache_file, 'wb') as fid:
-            cPickle.dump(gt_roidb, fid, cPickle.HIGHEST_PROTOCOL)
-        print 'wrote gt roidb to {}'.format(cache_file)
+            pickle.dump(gt_roidb, fid, pickle.HIGHEST_PROTOCOL)
+        print('wrote gt roidb to {}'.format(cache_file))
 
         return gt_roidb
 
@@ -116,14 +116,14 @@ class PascalVOC(IMDB):
         cache_file = os.path.join(self.cache_path, self.name + '_gt_segdb.pkl')
         if os.path.exists(cache_file):
             with open(cache_file, 'rb') as fid:
-                segdb = cPickle.load(fid)
-            print '{} gt segdb loaded from {}'.format(self.name, cache_file)
+                segdb = pickle.load(fid)
+            print('{} gt segdb loaded from {}'.format(self.name, cache_file))
             return segdb
 
         gt_segdb = [self.load_pascal_segmentation_annotation(index) for index in self.image_set_index]
         with open(cache_file, 'wb') as fid:
-            cPickle.dump(gt_segdb, fid, cPickle.HIGHEST_PROTOCOL)
-        print 'wrote gt segdb to {}'.format(cache_file)
+            pickle.dump(gt_segdb, fid, pickle.HIGHEST_PROTOCOL)
+        print('wrote gt segdb to {}'.format(cache_file))
 
         return gt_segdb
 
@@ -209,19 +209,19 @@ class PascalVOC(IMDB):
         cache_file = os.path.join(self.cache_path, self.name + '_ss_roidb.pkl')
         if os.path.exists(cache_file):
             with open(cache_file, 'rb') as fid:
-                roidb = cPickle.load(fid)
-            print '{} ss roidb loaded from {}'.format(self.name, cache_file)
+                roidb = pickle.load(fid)
+            print('{} ss roidb loaded from {}'.format(self.name, cache_file))
             return roidb
 
         if append_gt:
-            print 'appending ground truth annotations'
+            print('appending ground truth annotations')
             ss_roidb = self.load_selective_search_roidb(gt_roidb)
             roidb = IMDB.merge_roidbs(gt_roidb, ss_roidb)
         else:
             roidb = self.load_selective_search_roidb(gt_roidb)
         with open(cache_file, 'wb') as fid:
-            cPickle.dump(roidb, fid, cPickle.HIGHEST_PROTOCOL)
-        print 'wrote ss roidb to {}'.format(cache_file)
+            pickle.dump(roidb, fid, pickle.HIGHEST_PROTOCOL)
+        print('wrote ss roidb to {}'.format(cache_file))
 
         return roidb
 
@@ -314,7 +314,7 @@ class PascalVOC(IMDB):
         """
         n = num_cls
         pallete = [0]*(n*3)
-        for j in xrange(0,n):
+        for j in range(0,n):
                 lab = j
                 pallete[j*3+0] = 0
                 pallete[j*3+1] = 0
@@ -401,7 +401,7 @@ class PascalVOC(IMDB):
         for cls_ind, cls in enumerate(self.classes):
             if cls == '__background__':
                 continue
-            print 'Writing {} VOC results file'.format(cls)
+            print('Writing {} VOC results file'.format(cls))
             filename = self.get_result_file_template().format(cls)
             with open(filename, 'wt') as f:
                 for im_ind, index in enumerate(self.image_set_index):
@@ -426,7 +426,7 @@ class PascalVOC(IMDB):
         aps = []
         # The PASCAL VOC metric changed in 2010
         use_07_metric = True if self.year == 'SDS' or int(self.year) < 2010 else False
-        print 'VOC07 metric? ' + ('Y' if use_07_metric else 'No')
+        print('VOC07 metric? ' + ('Y' if use_07_metric else 'No'))
         info_str += 'VOC07 metric? ' + ('Y' if use_07_metric else 'No')
         info_str += '\n'
         for cls_ind, cls in enumerate(self.classes):

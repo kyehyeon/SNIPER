@@ -103,9 +103,9 @@ class BoxAnnotatorOHEMProp(mx.operator.CustomOpProp):
     def infer_shape(self, in_shape):
         labels_shape = in_shape[2]
         bbox_weights_shape = in_shape[4]
-        #print "quack"
-        #print labels_shape
-        #print in_shape
+        #print("quack")
+        #print(labels_shape)
+        #print(in_shape)
         if not self.get_fg_labels:
             return in_shape, \
                [labels_shape, bbox_weights_shape]

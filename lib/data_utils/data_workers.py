@@ -77,7 +77,7 @@ class im_worker(object):
         try:
             im = cv2.resize(im, None, None, fx=scale, fy=scale, interpolation=cv2.INTER_LINEAR)
         except:
-            print 'Image Resize Failed!'
+            print('Image Resize Failed!')
 
         rim = np.zeros((3, max_size[0], max_size[1]), dtype=np.float32)
         d1m = min(im.shape[0], max_size[0])
@@ -372,7 +372,7 @@ def roidb_worker(data):
     batch_index = im_i * np.ones((rois.shape[0], 1))
     rois_array_this_image = np.hstack((batch_index, rois))
     if rois_array_this_image.shape[0]==0:
-        print 'Something Wrong2'
+        print('Something Wrong2')
     rval = [mx.nd.array(rois_array_this_image), mx.nd.array(labels), mx.nd.array(bbox_targets), mx.nd.array(bbox_weights)]
     if has_mask:
         rval.append(encoded_polys)

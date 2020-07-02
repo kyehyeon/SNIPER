@@ -77,7 +77,7 @@ def train_model(class_names, image_number_per_class, batch_size=100, learning_ra
     #                'garfield', 'bugatti', \
     #                'teslaroadster', 'sadcat', 'yeezy')
     num_of_classes = len(class_names)
-    class_to_label = dict(zip(class_names, xrange(num_of_classes)))
+    class_to_label = dict(zip(class_names, range(num_of_classes)))
 
     # the pooled features and indices include all classes in folder 10cls_imgs
     with open("./demo/cache/features.pkl", 'rb') as f:

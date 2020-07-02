@@ -6,7 +6,6 @@ import os, sys
 
 import xml.dom.minidom as minidom
 import numpy as np
-import cPickle
 import pickle
 from collections import defaultdict
 import subprocess
@@ -50,8 +49,8 @@ class imagenet(IMDB):
             self._wnid_image = self._wnid_image + (str(one),)
             self._classes_image = self._classes_image + (wnid_2_description[str(one)],)
 
-        self._wnid_to_ind_image = dict(zip(self._wnid_image, xrange(num_of_subclasses)))
-        self._class_to_ind_image = dict(zip(self._classes_image, xrange(num_of_subclasses)))
+        self._wnid_to_ind_image = dict(zip(self._wnid_image, range(num_of_subclasses)))
+        self._class_to_ind_image = dict(zip(self._classes_image, range(num_of_subclasses)))
         self._image_ext = ['.JPEG']
         self._image_index = self._load_image_set_index()
 
@@ -155,12 +154,12 @@ class imagenet(IMDB):
         if os.path.exists(cache_file) and os.path.exists(index_file):
             print ("found cache")
             with open(cache_file, 'rb') as fid:
-                roidb = cPickle.load(fid)
+                roidb = pickle.load(fid)
             with open(index_file, 'rb') as fid:
-                self._image_index = cPickle.load(fid)
+                self._image_index = pickle.load(fid)
             self.num_images = len(roidb)
             assert len(roidb) == len(self._image_index), "roidb and image index length not matching!"
-            print '{} gt roidb loaded from {}'.format(self.name, cache_file)
+            print('{} gt roidb loaded from {}'.format(self.name, cache_file))
 
             return roidb
 
@@ -181,14 +180,14 @@ class imagenet(IMDB):
             if count % 1000 == 0:
                 t1 = time.time() - t
                 t = time.time()
-                print str(count) + '/' + str(len(self._image_index)) + " time spent: %.2f" %(t1) 
+                print(str(count) + '/' + str(len(self._image_index)) + " time spent: %.2f" %(t1) )
 
         self._image_index = [self._image_index[i] for i in valid_index]
         with open(cache_file, 'wb') as fid:
-            cPickle.dump(gt_roidb, fid, cPickle.HIGHEST_PROTOCOL)
+            pickle.dump(gt_roidb, fid, pickle.HIGHEST_PROTOCOL)
         with open(index_file, 'wb') as fid:
-            cPickle.dump(self._image_index, fid, cPickle.HIGHEST_PROTOCOL)
-        print 'wrote gt roidb to {}'.format(cache_file)
+            pickle.dump(self._image_index, fid, pickle.HIGHEST_PROTOCOL)
+        print('wrote gt roidb to {}'.format(cache_file))
 
         return gt_roidb
 
@@ -297,7 +296,7 @@ class imagenet(IMDB):
                     dets = all_boxes[cls_ind][im_ind]
                     if dets == []:
                         continue
-                    for k in xrange(dets.shape[0]):
+                    for k in range(dets.shape[0]):
                         f.write('{:d} {:d} {:.6f} {:.6f} {:.6f} {:.6f} {:.6f}\n'.
                                 format(im_ind + 1, cls_ind, dets[k, -1],
                                     dets[k, 0] + 1, dets[k, 1] + 1,

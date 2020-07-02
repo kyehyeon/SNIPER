@@ -8,7 +8,7 @@ from bbox.bbox_transform import bbox_pred, clip_boxes
 from iterators.PrefetchingIter import PrefetchingIter
 import os
 import time
-import cPickle
+import pickle
 from data_utils.data_workers import nms_worker
 from data_utils.visualization import visualize_dets
 from tqdm import tqdm
@@ -174,7 +174,7 @@ class Tester(object):
             cache_path = os.path.join(cache_path, 'detections.pkl')
             self.show_info('Done! Saving detections into: {}'.format(cache_path))
             with open(cache_path, 'wb') as detfile:
-                cPickle.dump(all_boxes, detfile)
+                pickle.dump(all_boxes, detfile)
         return all_boxes
 
     def get_detections(self, cls_thresh=1e-3, cache_name= 'cache', evaluate= False, vis=False, vis_path=None):

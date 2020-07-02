@@ -10,7 +10,7 @@ given a pascal voc imdb, compute mAP
 
 import numpy as np
 import os
-import cPickle
+import pickle
 from mask.mask_transform import mask_overlap
 
 
@@ -92,13 +92,13 @@ def voc_eval(detpath, annopath, imageset_file, classname, annocache, ovthresh=0.
         for ind, image_filename in enumerate(image_filenames):
             recs[image_filename] = parse_voc_rec(annopath.format(image_filename))
             if ind % 100 == 0:
-                print 'reading annotations for {:d}/{:d}'.format(ind + 1, len(image_filenames))
-        print 'saving annotations cache to {:s}'.format(annocache)
+                print('reading annotations for {:d}/{:d}'.format(ind + 1, len(image_filenames)))
+        print('saving annotations cache to {:s}'.format(annocache))
         with open(annocache, 'wb') as f:
-            cPickle.dump(recs, f, protocol=cPickle.HIGHEST_PROTOCOL)
+            pickle.dump(recs, f, protocol=pickle.HIGHEST_PROTOCOL)
     else:
         with open(annocache, 'rb') as f:
-            recs = cPickle.load(f)
+            recs = pickle.load(f)
 
     # extract objects in :param classname:
     class_recs = {}
@@ -190,18 +190,18 @@ def voc_eval_sds(det_file, seg_file, devkit_path, image_list, cls_name, cache_di
     check_voc_sds_cache(cache_dir, devkit_path, image_names, class_names)
     gt_cache = cache_dir + '/' + cls_name + '_mask_gt.pkl'
     with open(gt_cache, 'rb') as f:
-        gt_pkl = cPickle.load(f)
+        gt_pkl = pickle.load(f)
 
     # 2. Get predict pickle file for this class
     with open(det_file, 'rb') as f:
-        boxes_pkl = cPickle.load(f)
+        boxes_pkl = pickle.load(f)
     with open(seg_file, 'rb') as f:
-        masks_pkl = cPickle.load(f)
+        masks_pkl = pickle.load(f)
 
     # 3. Pre-compute number of total instances to allocate memory
     num_image = len(image_names)
     box_num = 0
-    for im_i in xrange(num_image):
+    for im_i in range(num_image):
         box_num += len(boxes_pkl[im_i])
 
     # 4. Re-organize all the predicted boxes
@@ -209,11 +209,11 @@ def voc_eval_sds(det_file, seg_file, devkit_path, image_list, cls_name, cache_di
     new_masks = np.zeros((box_num, mask_size, mask_size))
     new_image = []
     cnt = 0
-    for image_ind in xrange(len(image_names)):
+    for image_ind in range(len(image_names)):
         boxes = boxes_pkl[image_ind]
         masks = masks_pkl[image_ind]
         num_instance = len(boxes)
-        for box_ind in xrange(num_instance):
+        for box_ind in range(num_instance):
             new_boxes[cnt] = boxes[box_ind]
             new_masks[cnt] = masks[box_ind]
             new_image.append(image_names[image_ind])
@@ -229,7 +229,7 @@ def voc_eval_sds(det_file, seg_file, devkit_path, image_list, cls_name, cache_di
     # 6. Calculate t/f positive
     fp = np.zeros((num_pred, 1))
     tp = np.zeros((num_pred, 1))
-    for i in xrange(num_pred):
+    for i in range(num_pred):
         pred_box = np.round(new_boxes[i, :4]).astype(int)
         pred_mask = new_masks[i]
         pred_mask = cv2.resize(pred_mask.astype(np.float32), (pred_box[2] - pred_box[0] + 1, pred_box[3] - pred_box[1] + 1))
@@ -261,7 +261,7 @@ def voc_eval_sds(det_file, seg_file, devkit_path, image_list, cls_name, cache_di
 
     # 7. Calculate precision
     num_pos = 0
-    for key, val in gt_pkl.iteritems():
+    for key, val in gt_pkl.items():
         num_pos += len(val)
     fp = np.cumsum(fp)
     tp = np.cumsum(tp)
@@ -295,7 +295,7 @@ def parse_inst(image_name, devkit_path):
     background_ind = np.where(unique_inst == 0)[0]
     unique_inst = np.delete(unique_inst, background_ind)
     record = []
-    for inst_ind in xrange(unique_inst.shape[0]):
+    for inst_ind in range(unique_inst.shape[0]):
         [r, c] = np.where(seg_obj_data == unique_inst[inst_ind])
         mask_bound = np.zeros(4, dtype=int)
         mask_bound[0] = np.min(c)
@@ -342,7 +342,7 @@ def check_voc_sds_cache(cache_dir, devkit_path, image_names, class_names):
     if not exist_cache:
         # load annotations:
         # create a list with size classes
-        record_list = [{} for _ in xrange(21)]
+        record_list = [{} for _ in range(21)]
         for i, image_name in enumerate(image_names):
             record = parse_inst(image_name, devkit_path)
             for j, mask_dic in enumerate(record):
@@ -352,12 +352,12 @@ def check_voc_sds_cache(cache_dir, devkit_path, image_names, class_names):
                     record_list[cls][image_name] = []
                 record_list[cls][image_name].append(mask_dic)
             if i % 100 == 0:
-                print 'Reading annotation for {:d}/{:d}'.format(i + 1, len(image_names))
+                print('Reading annotation for {:d}/{:d}'.format(i + 1, len(image_names)))
 
-        print 'Saving cached annotations...'
+        print('Saving cached annotations...')
         for cls_ind, name in enumerate(class_names):
             if name == '__background__':
                 continue
             cachefile = os.path.join(cache_dir, name + '_mask_gt.pkl')
             with open(cachefile, 'wb') as f:
-                cPickle.dump(record_list[cls_ind], f)
+                pickle.dump(record_list[cls_ind], f)

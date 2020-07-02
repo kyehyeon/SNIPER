@@ -81,7 +81,7 @@ class MNIteratorE2E(MNIteratorBase):
 
         self.epiter = self.epiter + 1
         self.size = len(self.inds)
-        print 'Done!'
+        print('Done!')
 
     def get_batch(self):
         if self.cur_i >= self.size:

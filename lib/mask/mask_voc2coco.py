@@ -40,7 +40,7 @@ def mask_voc2coco(voc_masks, voc_boxes, im_height, im_width, binary_thresh = 0.4
     num_pred = len(voc_masks)
     assert(num_pred==voc_boxes.shape[0])
     mask_img = np.zeros((im_height, im_width, num_pred), dtype=np.uint8, order='F')
-    for i in xrange(num_pred):
+    for i in range(num_pred):
         pred_box = np.round(voc_boxes[i, :4]).astype(int)
         pred_mask = voc_masks[i]
         pred_mask = cv2.resize(pred_mask.astype(np.float32), (pred_box[2] - pred_box[0] + 1, pred_box[3] - pred_box[1] + 1))
