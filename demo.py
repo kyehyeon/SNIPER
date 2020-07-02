@@ -219,6 +219,9 @@ def main():
     # classify the rois
     rois_cls = classify_rois(linear_classifier, roipooled_features)
 
+    vis_out_path = 'vis_result'
+    os.system('mkdir -p {}'.format(vis_out_path))
+
     for idx in range(len(rois)):
         im_name = image_names_eval[idx]
         xcls_scores = process_mul_scores(objectness_scores[idx][0], rois_cls[idx])
@@ -237,7 +240,7 @@ def main():
         print('testing {}'.format(im_name))
         # visualize
         im = cv2.cvtColor(eval_im_list[idx].astype(np.uint8), cv2.COLOR_BGR2RGB)
-        vis_boxes(im_name, im, dets_nms, im_info_list_eval[idx][0][2], config, args.thresh, dir_names)
+        vis_boxes(im_name, im, dets_nms, im_info_list_eval[idx][0][2], config, args.thresh, dir_names, vis_out_path)
 
     print('Done')
 

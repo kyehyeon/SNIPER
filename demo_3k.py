@@ -98,6 +98,9 @@ def main():
     with open("./data/ILSVRC2014_devkit/data/3kcls_1C_words.txt",'rb') as f:
         index2words = pickle.load(f)
 
+    vis_out_path = 'vis_result'
+    os.system('mkdir -p {}'.format(vis_out_path))
+
     # test
     for idx, im_name in enumerate(image_names):
         data_batch = mx.io.DataBatch(data=[data[idx]], label=[], pad=0, index=idx,
@@ -131,7 +134,7 @@ def main():
         print('testing {} time spent before post-processing: {:.4f}s'.format(im_name, t))
         # visualize
         im = cv2.cvtColor(im_list[idx].astype(np.uint8), cv2.COLOR_BGR2RGB)
-        vis_boxes(im_name, im, dets_nms, im_info_list[idx][0][2], config, args.thresh, index2words)
+        vis_boxes(im_name, im, dets_nms, im_info_list[idx][0][2], config, args.thresh, index2words, vis_out_path)
 
 
     print('done')

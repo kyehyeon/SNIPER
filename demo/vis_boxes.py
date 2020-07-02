@@ -1,7 +1,7 @@
 import pickle
 import os
 
-def vis_boxes(file_name, im_array, detections, scale, cfg, threshold, class_names_matching):
+def vis_boxes(file_name, im_array, detections, scale, cfg, threshold, class_names_matching, vis_out_path):
     """
     visualize detections in one image and save it
     :param file_name: file name of the output image
@@ -37,7 +37,5 @@ def vis_boxes(file_name, im_array, detections, scale, cfg, threshold, class_name
                            bbox=dict(facecolor=color, alpha=0.5), fontsize=16, color='white')
 
     
-    vis_out_path = "./vis_result"
-
     file_name = (file_name.split('/')[-1]).split('.')[0]
-    plt.savefig(os.path.join(vis_out_path, file_name + '.png'))
+    plt.savefig(os.path.join(vis_out_path, file_name + '.jpg'))
