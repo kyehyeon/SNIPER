@@ -9,6 +9,6 @@ protobuf
 argparse
 scikit-image
 jupyter
-inda==2.9
+idna==2.9
 certifi==2020.4.5.2
 requests==2.23.0
