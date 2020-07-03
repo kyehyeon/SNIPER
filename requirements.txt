@@ -9,3 +9,5 @@ protobuf
 argparse
 scikit-image
 jupyter
+requests
+spb-cli
