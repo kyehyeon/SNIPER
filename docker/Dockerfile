@@ -34,4 +34,4 @@ RUN cd SNIPER-mxnet-kh && \
 RUN ./scripts/compile.sh && \
     ./prepare_demo.sh
 
-CMD ["jupyter", "notebook", "--ip=0.0.0.0", "--allow-root"]
+CMD ["./update_and_run.sh"]
