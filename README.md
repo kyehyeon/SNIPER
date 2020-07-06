@@ -31,4 +31,4 @@ docker run --rm -ti --gpus all -p 28888:8888 spbai/fsod:v1
 
 2. Connect your jupyter notebook server (e.g., http://127.0.0.1:28888) via your web browser.
 
-3. Open [Superb_AI_SDK_Usage_for_MXNet_Object_Detection.ipynb](Superb_AI_SDK_Usage_for_MXNet_Object_Detection.ipynb)
+3. Open [Suite SDK Demo - Few-Shot Object Detection from Weakly Labeled Data.ipynb](Suite SDK Demo - Few-Shot Object Detection from Weakly Labeled Data.ipynb)
