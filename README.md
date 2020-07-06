@@ -31,4 +31,4 @@ docker run --rm -ti --gpus all -p 28888:8888 spbai/fsod:v1
 
 2. Connect your jupyter notebook server (e.g., http://127.0.0.1:28888) via your web browser.
 
-3. Open [Suite SDK Demo - Few-Shot Object Detection from Weakly Labeled Data.ipynb](Suite SDK Demo - Few-Shot Object Detection from Weakly Labeled Data.ipynb)
+3. Open [Suite SDK Demo - Few-Shot Object Detection from Weakly Labeled Data.ipynb](https://github.com/kyehyeon/SNIPER/blob/cvpr3k/Suite%20SDK%20Demo%20-%20Few-Shot%20Object%20Detection%20from%20Weakly%20Labeled%20Data.ipynb)
